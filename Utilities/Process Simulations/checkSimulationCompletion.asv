@@ -8,8 +8,6 @@ global pbsQueue
 pbsQueue = 'eceforce-6';
 global pbsNodes
 pbsNodes = 150;
-global walltime
-walltime = 120;
 %Parent directory for simulations
 parentDirectory = [localPath 'gpfstest\IDO\Clean\X\Reflectance-band-src\R-0.250_epsS-13.0_epsL-1.0'];
 
@@ -67,7 +65,6 @@ global SimGroup
 global localPath
 global pbsQueue
 global pbsNodes
-global walltime
 simFolder = [parentDirectory '/' listing.name];
 
 %Check if the normalization run completed
@@ -116,8 +113,6 @@ if(checkSimRun([simFolder '/output/norm.txt']))
         
         %Modify .pbs settings
         SimGroup.pbs.queue = pbsQueue;
-        SimGroup.pbs.nodes = pbsNodes;
-        SimGroup.pbs.walltime = walltime;
         
         %Resubmit
         writeSimFiles(SimGroup);
@@ -150,7 +145,6 @@ SimGroup.localPath = localPath;
 %Modify .pbs settings
 SimGroup.pbs.queue = pbsQueue;
 SimGroup.pbs.nodes = pbsNodes;
-SimGroup.pbs.walltime = walltime;
 
 %Resubmit
 writeSimFiles(SimGroup);

@@ -11,6 +11,7 @@ yMax = SimGroup.simulation.lat(2)/2;
 zMin = -1*SimGroup.simulation.lat(3)/2;
 zMax = SimGroup.simulation.lat(3)/2;
 
+
 %Get grid of coordinates
 [X,Y,Z] = meshgrid(xMin:1/res:xMax, yMin:1/res:yMax, zMin:1/res:zMax);
 
