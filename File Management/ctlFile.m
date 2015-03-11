@@ -289,15 +289,15 @@ if(~SimGroup.simulation.normalization && SimGroup.simulation.epsInputFile) %Chec
 else
     fprintf(fid,'(set! geometry (list ');
     
-    if(simulation.normalization)
-        objectNum = SimGroup.simulation.geometryNormalizaitonLimit;
+    if(SimGroup.simulation.normalization)
+        objectNum = SimGroup.simulation.geometryNormalizationLimit;
     else
-        geometry = length(SimGroup.geometry);
+        objectNum = length(SimGroup.geometry);
     end
     
     %Write geometry to file
     for k = 1:objectNum
-        fprintf(fid, geometry(k).ctlPrint);
+        fprintf(fid, SimGroup.geometry(k).ctlPrint);
     end
     fprintf(fid,'))\n');
 end

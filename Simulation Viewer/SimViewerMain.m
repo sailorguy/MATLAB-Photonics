@@ -25,7 +25,7 @@ function varargout = SimViewerMain(varargin)
 % Last Modified by GUIDE v2.5 02-Oct-2012 18:28:10.90909
 
 %Add custom tree node class for checkbox tree
-javaaddpath([pwd '/Classes/Java Classes'], '-end');
+javaaddpath([pwd '/MATLAB-Photonics/Classes/Java Classes'], '-end');
 
 % Begin initialization code - DO NOT EDIT
 gui_Singleton = 1;
