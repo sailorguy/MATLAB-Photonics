@@ -11,6 +11,9 @@ classdef GeometryObj
         
         %Blocks
         size %Size of block in X, Y, Z
+        e1 = [1 0 0] %Edge 1 vector, defaults to X-axis
+        e2 = [0 1 0] %Edge 2 vector, defaults to Y-axis
+        e3 = [0 0 1] %Edge 3 vector, defaults to Z-axis
         
         %Sphere
         radius %Sphere radius
@@ -23,8 +26,7 @@ classdef GeometryObj
         %Cone
         radius2 = 0 %Radius for tip of cone, default to 0
         
-        
-        
+    
     end
     
     
@@ -50,9 +52,9 @@ classdef GeometryObj
                         vecToStr(obj.axis), obj.epsilonRE, obj.sigmaD,obj.chi2, obj.chi3);
                     
                 case 'block'
-                    formatSpec = '(make block (center %s) (size %s) (material(make dielectric(epsilon %f)(D-conductivity %f)(chi2 %f)(chi3 %f))))\n';
+                    formatSpec = '(make block (center %s) (size %s) (e1 %s) (e2 %s) (e3 %s) (material(make dielectric(epsilon %f)(D-conductivity %f)(chi2 %f)(chi3 %f))))\n';
                     string = sprintf(formatSpec,vecToStr(obj.center),vecToStr(obj.size),...
-                        obj.epsilonRE, obj.sigmaD, obj.chi2, obj.chi3);
+                        vecToStr(obj.e1), vecToStr(obj.e2), vecToStr(obj.e3), obj.epsilonRE, obj.sigmaD, obj.chi2, obj.chi3);
                     
                 case 'ellipsoid'
                     formatSpec = '(make ellipsoid (center %s) (size %s) (material(make dielectric(epsilon %f)(D-conductivity %f)(chi2 %f)(chi3 %f))))\n';

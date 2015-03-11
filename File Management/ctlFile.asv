@@ -292,7 +292,7 @@ else
     if(simulation.normalization)
         objectNum = SimGroup.simulation.geometryNormalizaitonLimit;
     else
-        geometry = length(SimGroup.geometry);
+        geometry = SimGroup.geometry;
     end
     
     %Write geometry to file

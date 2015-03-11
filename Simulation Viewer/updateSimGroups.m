@@ -191,6 +191,7 @@ else %Averaged data
     SimViewer_g.SimGroup(index).reflFlux = temp.refl_data;
     SimViewer_g.SimGroup(index).name = 'Average';
     SimViewer_g.SimGroup(index).averagedData = true;
+    SimViewer_g.SimGroup(index).type = 'MEEP';
     
     %Ensure simulation.type is set
     if(isempty(SimViewer_g.SimGroup(index).simulation.type))
