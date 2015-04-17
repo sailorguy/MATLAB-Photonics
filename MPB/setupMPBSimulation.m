@@ -10,7 +10,7 @@ switch SimGroup.MPBSimulation.latticeType
     case 'diamond'
         
         %Define basis point
-        SimGroup.lattice.basisPoint = [-.125*SimGroup.MPBSimulation.a, -.125*SimGroup.MPBSimulation.a ,-.125*SimGroup.MPBSimulation.a];
+        SimGroup.lattice.basisPoint = [-.125*SimGroup.lattice.a, -.125*SimGroup.lattice.a ,-.125*SimGroup.lattice.a];
         
         %Set lattice type
         SimGroup.lattice.type = 'diamond';

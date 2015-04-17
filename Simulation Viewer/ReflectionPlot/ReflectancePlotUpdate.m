@@ -53,7 +53,7 @@ switch btnPress
         %Print to PDF
         set(gcf, 'PaperPositionMode', 'auto', 'PaperType', 'C');
         set(gcf, 'Position', [200 200 1400 900]);
-        %set(gcf, 'Position', [200 200 800 600]);
+        %set(gcf, 'Position', [200 200 1000 800]);
         print(gcf, 'MEEPPlot.pdf', '-dpdf')
         close;
         
@@ -70,8 +70,8 @@ switch btnPress
         
         %Print to EPS
         set(gcf, 'PaperPositionMode', 'auto', 'PaperType', 'C');
-        set(gcf, 'Position', [200 200 800 600]);
-        print(gcf, 'MEEPPlot.eps', '-depsc2')
+        set(gcf, 'Position', [200 200 1000 800]);
+        print(gcf, 'MEEPPlot.eps', '-depsc')
         close;
         
 end
@@ -116,7 +116,7 @@ if(isempty(SimViewer_g.reflectanceHandles))
 else
     
     %Add sorted legend to plot
-    legend(SimViewer_g.reflectanceHandles(IX), SimViewer_g.reflectanceNames(IX), 'Location', 'SouthEast', 'FontSize', 11, 'FontWeight', 'demi');
+    legend(SimViewer_g.reflectanceHandles(IX), SimViewer_g.reflectanceNames(IX), 'Location', 'SouthEast', 'FontSize', 12, 'FontWeight', 'demi');
     
     %Make sure legend is visible
     legend('show')
@@ -222,7 +222,7 @@ global SimViewer_g
 
 %Format axis
 %Font
-set(gca, 'FontSize', 14, 'FontName', 'Helvetica', 'FontWeight', 'Normal');
+set(gca, 'FontSize', 15, 'FontName', 'Helvetica', 'FontWeight', 'Normal');
 
 %Axis properties
 set(gca, 'Box', 'on', 'TickDir', 'out', 'TickLength', [.02 .02],...
@@ -231,11 +231,11 @@ set(gca, 'Box', 'on', 'TickDir', 'out', 'TickLength', [.02 .02],...
 %Axis labels
 %X-Axis
 if(SimViewer_g.normfreq)
-    xlabel( '\omegaa/2\pic', 'FontSize', 15); %Plot by frequency
+    xlabel( '\omegaa/2\pic', 'FontSize', 16); %Plot by frequency
     xmin = SimViewer_g.normfreqmin;
     xmax = SimViewer_g.normfreqmax;
 else
-    xlabel( 'Wavelength (um)', 'FontSize', 15); %Plot by wavelength
+    xlabel( 'Wavelength (um)', 'FontSize', 16); %Plot by wavelength
     xmin = SimViewer_g.wavelengthmin;
     xmax = SimViewer_g.wavelengthmax;
 end
@@ -254,7 +254,7 @@ xticks = xmin:interval:xmax;
 set(gca,'XTick', xticks);
 
 %Y-Axis
-ylabel( 'Transmitted Power', 'FontSize', 13, 'FontWeight', 'light');
+ylabel( 'Transmitted Power', 'FontSize', 16, 'FontWeight', 'light');
 
 %Set axis limits
 ymin = SimViewer_g.rcoeffmin;

@@ -316,16 +316,16 @@ classdef SimGroupObj
                 zmax = obj.simulation.lat(3)/2 + obj.lattice.radius;
                 
                 %Check to see if cell is below minimum view size in Y or Z
-                if(.5*ymax < obj.plotYMin)
-                    ymax = .5*obj.plotYMin;
-                    ymin = -1*ymax;
-                end
-                
-                if(.5*zmax < obj.plotZMin)
-                    zmax = .5*obj.plotZMin;
-                    zmin = -1*zmax;
-                end
-                
+%                 if(.5*ymax < obj.plotYMin)
+%                     ymax = .5*obj.plotYMin;
+%                     ymin = -1*ymax;
+%                 end
+%                 
+%                 if(.5*zmax < obj.plotZMin)
+%                     zmax = .5*obj.plotZMin;
+%                     zmin = -1*zmax;
+%                 end
+%                 
                 %Scale axis to fit cell
                 axis([xmin xmax ymin ymax zmin zmax]);
                 axis equal

@@ -44,8 +44,6 @@ fprintf(fid, '\n\n');
 %This section describes command line inputs to be run on the cluster, once
 %the resources described above have been allocated.
 
-%fprintf(fid, 'ulimit -l unlimited\n\n'); %EXPERIMENTAL: Command related to memlock error
-
 fprintf(fid, 'source /etc/profile.d/modules.csh\n');
 
 %Ensure that command prompt is at home directory
@@ -65,9 +63,9 @@ switch SimGroup.type
         else
             fprintf(fid, 'module load %s\n',SimGroup.pbs.compiler);
             fprintf(fid, 'module load %s\n',SimGroup.pbs.mpiVersion);
-            fprintf(fid, 'module load harminv/1.3.1\n');
-            fprintf(fid, 'module load libctl/3.2.1\n');
-            fprintf(fid, 'module load fftw/3.3\n');
+            fprintf(fid, 'module load %s\n',SimGroup.pbs.harminvVersion);
+            fprintf(fid, 'module load %s\n',SimGroup.pbs.libctlVersion);
+            fprintf(fid, 'module load %s\n',SimGroup.pbs.fftwVersion);
             fprintf(fid, 'module load %s\n', SimGroup.pbs.hdf5Version);
             fprintf(fid, 'module load %s\n', SimGroup.pbs.meepVersion);
             
@@ -87,8 +85,9 @@ switch SimGroup.type
         if(SimGroup.simulation.usePreGeneratedNormData)
             
             dataPath = [SimGroup.dir '/' SimGroup.name '/data'];
-            fprintf(fid, ['cp ' SimGroup.simulation.preGeneratedNormDataPath '/refl-flux.h5 ' dataPath '\n']); %.h5 file
-            fprintf(fid, ['cp ' SimGroup.simulation.preGeneratedNormDataPath '/norm.txt ' dataPath '\n']); %output data from normalization run
+            outputPath = [SimGroup.dir '/' SimGroup.name '/output'];
+            fprintf(fid, '%s\n', ['cp ' SimGroup.simulation.preGeneratedNormDataPath '/data/refl-flux.h5 ' dataPath]); %.h5 file
+            fprintf(fid, '%s\n', ['cp ' SimGroup.simulation.preGeneratedNormDataPath '/output/norm.txt ' outputPath]); %output data from normalization run
         end
         
         

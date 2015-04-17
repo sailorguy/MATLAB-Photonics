@@ -349,5 +349,6 @@ classdef latticeGenObj
      
         end
     end
+    
 
 end

@@ -49,7 +49,7 @@ switch btnPress
         %Process Sim Groups
         checkSimGroups;
         
-        %Print to EPS
+        %Print to PDF
         set(gcf, 'PaperPositionMode', 'auto', 'PaperType', 'C');
         set(gcf, 'Position', [200 200 1600 1000]);
         set(gcf, 'Position', [200 200 900 700]);
@@ -62,7 +62,7 @@ switch btnPress
         figure;
         
         %Force painters
-        set(gcf, 'Renderer', 'opengl');
+        set(gcf, 'Renderer', 'painters');
         
         
         %Process Sim Groups
@@ -71,8 +71,7 @@ switch btnPress
         %Print to EPS
         set(gcf, 'PaperPositionMode', 'auto', 'PaperType', 'C');
         set(gcf, 'Position', [200 200 800 600]);
-        print(gcf,'-r1000', 'MPBPlot.jpeg', '-djpeg')
-
+        print(gcf, 'MPBPlot.eps', '-depsc')
         close;
         
 end

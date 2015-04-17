@@ -5,13 +5,13 @@ global SimGroup
 global localPath;
 localPath = 'W:/';
 global pbsQueue
-pbsQueue = 'eceforce-6';
+pbsQueue = 'iw-shared-6';
 global pbsNodes
-pbsNodes = 150;
+pbsNodes = 200;
 global walltime
-walltime = 120;
+walltime = 12;
 %Parent directory for simulations
-parentDirectory = [localPath 'gpfstest\IDO\Clean\X\Reflectance-band-src\R-0.250_epsS-13.0_epsL-1.0'];
+parentDirectory = [localPath 'gpfstest\IDO\PRM\X'];
 
 %Allowed runID's
 allowedRunID = [1 2 3 4 5];
@@ -124,6 +124,7 @@ if(checkSimRun([simFolder '/output/norm.txt']))
         simCount = simCount+1;
         
         display('Reflectance run');
+        display(simFolder)
         
         %Resubmit complete
         return
@@ -157,6 +158,7 @@ writeSimFiles(SimGroup);
 simCount = simCount+1;
 
 display('Normalization run');
+display(simFolder)
 
 end
 

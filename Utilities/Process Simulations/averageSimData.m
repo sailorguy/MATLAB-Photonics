@@ -5,7 +5,7 @@ global localPath;
 localPath = 'W:/';
 
 %Parent directory for simulations
-parentDirectory = [localPath 'gpfstest\IDO\Clean\X\Reflectance-band-src\R-0.250_epsS-13.0_epsL-1.0\Occupancy-T1000'];
+parentDirectory = [localPath 'gpfstest\IDO\PRM'];
 
 %Process all simulations in parent directory
 isFolderSim(parentDirectory);

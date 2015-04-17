@@ -332,19 +332,19 @@ global fid
 if( simulation.lat(1) == 0)
     strX = 'no-size';
 else
-    strX = num2str(simulation.lat(1));
+    strX = sprintf('%f', simulation.lat(1));
 end
 
 if( simulation.lat(2) == 0)
     strY = 'no-size';
 else
-    strY = num2str(simulation.lat(2));
+    strY = sprintf('%f', simulation.lat(2));
 end
 
 if( simulation.lat(3) == 0)
     strZ = 'no-size';
 else
-    strZ = num2str(simulation.lat(3));
+    strZ = sprintf('%f', simulation.lat(3));
 end
 
 

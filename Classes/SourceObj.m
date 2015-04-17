@@ -9,6 +9,12 @@ classdef SourceObj
         component %Field component (Hz, Ex etc.)
         amplitude = 1 %Default amplitude for source of 1
         
+        %Angular source properties
+        angularfcen %Center frequency for angular source (could be different than fcen)
+        angleY %Y directed angle of source away from propagating along X
+        angleZ %Z directed angle of source away from propagating along Z
+        kVec = [0 0 0]; %K vector to control angular source, defaults to normal incidence 
+        
         %Source specific properties
         fcen %center frequency
         startTime = 0 %Default the source to start at T = 0
@@ -29,25 +35,25 @@ classdef SourceObj
                 
                 case 'gaussian-src'
                     formatSpec = ['(make source (src (make gaussian-src (frequency %f) (fwidth %f) (start-time %f) (cutoff %f) ))'...
-                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) )\n'];
+                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) (amp-func src-amp_%u) )\n'];
                     
                     string = sprintf(formatSpec, obj.fcen, obj.df, obj.startTime, obj.cutoff, obj.component, obj.center(1),...
-                        obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude);
+                        obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude, srcIndex);
                     
                 case 'continuous-src'
                     
                     formatSpec = ['(make source (src (make continuous-src (frequency %f) (start-time %f) (width %f) (cutoff %f) ))'...
-                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) )\n'];
+                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) (amp-func src-amp_%u) )\n'];
                     
                     string = sprintf(formatSpec, obj.fcen, obj.startTime, obj.width, obj.cutoff, obj.component, ...
-                        obj.center(1), obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude);
+                        obj.center(1), obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude, srcIndex);
                     
                 case 'band-src'
                     formatSpec = ['(make source (src (make custom-src (src-func band-src_%u ) (start-time %f) (end-time %f)))'...
-                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) )\n'];
+                        ' (component %s) (center %f %f %f) (size %f %f %f) (amplitude %f) (amp-func src-amp_%u) )\n'];
                     
                     string = sprintf(formatSpec, srcIndex, obj.startTime, obj.startTime + obj.cutoff, obj.component, obj.center(1),...
-                        obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude);
+                        obj.center(2), obj.center(3), obj.size(1), obj.size(2), obj.size(3), obj.amplitude, srcIndex);
                     
             end
             
@@ -97,14 +103,21 @@ classdef SourceObj
                    
                    string = sprintf(formatSpec, srcIndex, obj.fcen, obj.df, obj.cutoff);
                                              %'	(* sincT wnd_Blackmann) ;if\n', ...                       %'	(* sincT wnd_Blackmann) ;if\n', ... 
-                   
+               
+                                             
                otherwise
-                   return %Do nothing for non-custom sources
+                   %Do nothing for non-custom sources
                    
                    
            end
-            
-            
+           
+           %Handle angular sources
+           
+           formatSpec = '%s\n\n(define (src-amp_%u p) (exp (* 2 pi 0+1i (vector3* (vector3 %f %f %f) p))))\n\n';
+           
+           string = sprintf(formatSpec, string, srcIndex, obj.kVec(1), obj.kVec(2), obj.kVec(3));
+           
+           
         end
         
         function SourceText = print(obj,index)

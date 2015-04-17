@@ -17,6 +17,7 @@ classdef PbsObj
         compiler = 'intel/12.1.4' %Compiler for MEEP when not using default
         mpiVersion = 'openmpi/1.5.4' %MPI version when not using default
         hdf5Version = 'hdf5/1.8.9' %Version of hdf5
+        harminvVersion = 'harminv/1.3.1';
         meepVersion = 'meep/1.2' %Version of meep 
         mpbVersion = 'mpb/1.5' %Version of MPB
         fftwVersion = 'fftw/2.1.5' %Version of fftw
