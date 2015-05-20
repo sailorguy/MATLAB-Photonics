@@ -2,6 +2,12 @@ function exportData
 
 global SimViewer_g
 
+global data
+global headers
+global writtenXdata index
+writtenXdata = false;
+index = 1;
+
 %Get export folder
 exportFolder = SimViewer_g.reflPlotControls.exportFolder;
 
@@ -12,8 +18,6 @@ indices = SimViewer_g.reflPlotControls.indices;
 headers = {};
 data = [];
 fileName = '';
-index = 1; %Dataset counter
-writtenXdata = false;
 
 for k = 1:length(SimViewer_g.SimGroup)
     
@@ -24,47 +28,20 @@ for k = 1:length(SimViewer_g.SimGroup)
         %Loop over top level plot elments
         for m = 1:length(SimViewer_g.SimGroup(k).plotElement)
             
-            %Only export visible plot elements
+            %Export top level data if visible
             if(SimViewer_g.SimGroup(k).plotElement(m).visible)
-                
-                %Get X data if first plot element
-                if(~writtenXdata)
-                    %Get X data
-                    xData = SimViewer_g.SimGroup(k).plotElement(m).xData;
-                    
-                    %Check if exporting by frequency or wavelength
-                    if(SimViewer_g.wavelength)
-                        xData = 1./xData;
-                        xLabel = 'Wavelength (um)';
-                        
-                    else
-                        xLabel = 'Normalized Frequency';
-                    end
-                    
-                    %Write X data
-                    data(:,index) = xData;
-                    
-                    %Write X header
-                    headers{1,index} = xLabel;
-                    
-                    %Increment dataset counter
-                    index = index + 1;
-                end
-                
-                %Get header information
-                headers{1,index} = SimViewer_g.SimGroup(k).plotElement(m).name;
-                
-                %Write Y Data
-                data(:,index) = SimViewer_g.SimGroup(k).plotElement(m).yData;
-                
-                %Increment dataset counter
-                index = index + 1;
-                
-                %Indicate that we have written xData
-                writtenXdata = true;
-                
+                exportPlotElementData(SimViewer_g.SimGroup(k).plotElement(m));
             end
             
+            %Loop over second level elements
+            for n = 1:length(SimViewer_g.SimGroup(k).plotElement(m).children)
+                
+                %Export second level data if visible
+                if(SimViewer_g.SimGroup(k).plotElement(m).children(n).visible)
+                    
+                    exportPlotElementData(SimViewer_g.SimGroup(k).plotElement(m).children(n))
+                end            
+            end   
         end
     end
     
@@ -81,9 +58,56 @@ data = data(index, :);
 
 %File path
 file = [exportFolder '/' fileName '.csv'];
+file = 'data.csv';
 
 %Write data file
 writeCSV(file, headers, data);
 
 end
 
+function exportPlotElementData(plotElement)
+global SimViewer_g
+global data
+global headers
+
+global writtenXdata index
+
+%Get X data if first plot element
+if(~writtenXdata)
+    %Get X data
+    xData = plotElement.xData;
+    
+    %Check if exporting by frequency or wavelength
+    if(SimViewer_g.wavelength)
+        xData = 1./xData;
+        xLabel = 'Wavelength (um)';
+        
+    else
+        xLabel = 'Normalized Frequency';
+    end
+    
+    %Write X data
+    data(:,index) = xData;
+    
+    %Write X header
+    headers{1,index} = xLabel;
+    
+    %Increment dataset counter
+    index = index + 1;
+    
+    %Indicate that we have written xData
+    writtenXdata = true;
+end
+
+
+%Get header information
+headers{1,index} = plotElement.name;
+
+%Write Y Data
+data(:,index) = plotElement.yData;
+
+%Increment dataset counter
+index = index + 1;
+
+
+end

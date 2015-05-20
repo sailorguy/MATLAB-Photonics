@@ -21,7 +21,7 @@ classdef PbsObj
         meepVersion = 'meep/1.2' %Version of meep 
         mpbVersion = 'mpb/1.5' %Version of MPB
         fftwVersion = 'fftw/2.1.5' %Version of fftw
-        libctlVersion = 'libctl/3.1' %Version of libctl
+        libctlVersion = 'libctl/3.2.1' %Version of libctl
         
         
         %Shell Script for job submission

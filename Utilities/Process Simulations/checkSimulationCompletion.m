@@ -7,11 +7,11 @@ localPath = 'W:/';
 global pbsQueue
 pbsQueue = 'iw-shared-6';
 global pbsNodes
-pbsNodes = 200;
+pbsNodes = 256;
 global walltime
 walltime = 12;
 %Parent directory for simulations
-parentDirectory = [localPath 'gpfstest\IDO\PRM\X'];
+parentDirectory = [localPath 'gpfs-scratch\IDO\Clean\Test'];
 
 %Allowed runID's
 allowedRunID = [1 2 3 4 5];
@@ -22,7 +22,7 @@ if(exist([localPath '/data/qf.sh'], 'file'))
 end
 
 %Process all simulations in parent directory
-isFolderSim(parentDirectory, allowedRunID);
+% isFolderSim(parentDirectory, allowedRunID);
 
 %Display number of simulations found for resubmission
 simCount

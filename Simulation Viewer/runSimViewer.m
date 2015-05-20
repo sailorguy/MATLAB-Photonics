@@ -1,7 +1,7 @@
 function runSimViewer
 
 %Set path to simulation folders
-simulationDirectory = 'W:\gpfstest\IHO_2D\Test2';
+simulationDirectory = 'W:\gpfs-scratch\IHO_2D\04-17-15';
 
 monitorConfiguration = 'one'; %One, two or three
 

@@ -136,7 +136,13 @@ switch SimGroup.type
         fprintf(fid, 'module load %s\n',SimGroup.pbs.libctlVersion);
         fprintf(fid, 'module load %s\n', SimGroup.pbs.hdf5Version);
         fprintf(fid, 'module load %s\n', SimGroup.pbs.mpbVersion);
-       
+        
+        switch  SimGroup.MPBSimulation.dimensionality
+            
+           
+                
+            case '3D' 
+                
                 
                 %MPB Command
                 mpbMPI = ['mpirun -np ' num2str(SimGroup.pbs.nodes*SimGroup.pbs.ppn)  ' -hostfile $PBS_NODEFILE mpb-mpi '];
@@ -147,19 +153,9 @@ switch SimGroup.type
                 %Run MPB using path to .ctl file
                 fprintf(fid, [mpbMPI SimGroup.name 'MPB.ctl | tee ' 'output/MPBout.txt\n']);
                 
-                switch  SimGroup.MPBSimulation.dimensionality
-                    
-                    case '2D'
-                        %Extract frequencies from MPBout.txt, after simulation has
-                        %completed
-                        fprintf(fid, 'grep tefreqs output/MPBout.txt > output/MPBFreqsTE.txt\n');
-                        fprintf(fid, 'grep tmfreqs output/MPBout.txt > output/MPBFreqsTM.txt\n');
-                        
-                    otherwise
-                        %Extract frequencies from MPBout.txt, after simulation has
-                        %completed
-                        fprintf(fid, 'grep freqs output/MPBout.txt > output/MPBFreqs.txt\n');    
-                end
+                %Extract frequencies from MPBout.txt, after simulation has
+                %completed
+                fprintf(fid, 'grep freqs output/MPBout.txt > output/MPBFreqs.txt\n');
                 
                 %Remove loaded modules
                 fprintf(fid, 'module rm %s\n',SimGroup.pbs.compiler);
@@ -186,7 +182,55 @@ switch SimGroup.type
                     end
                 end
                 
+                
+            otherwise
+                
+                
+                %MPB Command
+                mpbMPI = ['mpirun -np ' num2str(SimGroup.pbs.nodes*SimGroup.pbs.ppn)  ' -hostfile $PBS_NODEFILE mpb-mpi '];
+                
+                %Change directory to simulation directory
+                fprintf(fid, ['cd ' SimGroup.dir '/' SimGroup.name '\n']);
+                
+                %Run MPB using path to .ctl file
+                fprintf(fid, [mpbMPI SimGroup.name 'MPB.ctl | tee ' 'output/MPBout.txt\n']);
+                
+                %Extract frequencies from MPBout.txt, after simulation has
+                %completed
+                fprintf(fid, 'grep tefreqs output/MPBout.txt > output/MPBFreqsTE.txt\n');
+                fprintf(fid, 'grep tmfreqs output/MPBout.txt > output/MPBFreqsTM.txt\n');
+                
+                
+                %Remove loaded modules
+                fprintf(fid, 'module rm gcc/4.4.5\n');
+                fprintf(fid, 'module rm openmpi/1.4.3\n');
+                fprintf(fid, 'module rm fftw/2.1.5\n');
+                fprintf(fid, 'module rm libctl/3.1\n');
+                fprintf(fid, 'module rm hdf5/1.8.9_parallel\n');
+                fprintf(fid, 'module rm mpb-hdf_1.8.9-test/1.4.2_hdf_test\n');
+                
+                %Reload non MPI version of MPB
+                fprintf(fid, 'module load gcc/4.4.5\n');
+                fprintf(fid, 'module load fftw/2.1.5\n');
+                fprintf(fid, 'module load libctl/3.1\n');
+                fprintf(fid, 'module load hdf5/1.8.9\n');
+                fprintf(fid, 'module load mpb/1.4.2\n');
+                
+                %Post process output files, propagate for extra periods
+                for k = 1:length(SimGroup.MPBSimulation.MPBh5Files)
+                    %Check if current file output is in use
+                    if(SimGroup.MPBSimulation.MPBh5Files(k).inUse_FLAG)
+                        fprintf(fid, 'mpb-data -r -m %u -n %u %s\n',...
+                            SimGroup.MPBSimulation.MPBh5Files(k).periods, SimGroup.MPBSimulation.MPBh5Files(k).resolution, ...
+                            SimGroup.MPBSimulation.MPBh5Files(k).name);
+                    end
+                end
+                
+                
+                % fprintf(fid, 'mpb-data -r -m 3 -n 32 epsilon.h5\n');
+                
         end
+end
 
 %Write submit command into file as a comment in case pbs script needs to be
 %resubmitted

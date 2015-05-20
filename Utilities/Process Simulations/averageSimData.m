@@ -2,10 +2,10 @@ function averageSimData
 global simCount
 simCount = 0;
 global localPath;
-localPath = 'W:/';
+localPath = 'R:/';
 
 %Parent directory for simulations
-parentDirectory = [localPath 'gpfstest\IDO\PRM'];
+parentDirectory = [localPath 'gpfstest\IDO\PRM2'];
 
 %Process all simulations in parent directory
 isFolderSim(parentDirectory);
@@ -41,12 +41,12 @@ for k = 1:length(listing)
                 
                 simCount = simCount + 1;
                 
-                %Take middle 80% of data
-                lowIndex  = uint16(round(.1*length(norm_flux)));
-                highIndex = uint16(round(.9*length(norm_flux)));
-                
-                norm_flux = norm_flux(lowIndex:highIndex,:);
-                refl_flux = refl_flux(lowIndex:highIndex,:);
+%                 %Take middle 80% of data
+%                 lowIndex  = uint16(round(.1*length(norm_flux)));
+%                 highIndex = uint16(round(.9*length(norm_flux)));
+%                 
+%                 norm_flux = norm_flux(lowIndex:highIndex,:);
+%                 refl_flux = refl_flux(lowIndex:highIndex,:);
                 
                 %Append data
                 if(isempty(norm_data)) %First data set

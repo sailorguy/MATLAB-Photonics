@@ -7,12 +7,12 @@ fid = fopen(file, 'w');
 for k = 1:(length(headers) - 1);
     
     %Write header and ,
-    fprintf(fid, [headers{1,k}, ', ']);
+    fprintf(fid, '%s', [headers{1,k}, ', ']);
     
 end
 
 %Write last header
-fprintf(fid, headers{1,length(headers)});
+fprintf(fid, '%s', headers{1,length(headers)});
 
 %Write EOL
 fprintf(fid, '\n');

@@ -15,8 +15,8 @@ trans_avg(:,1) = unique_freq;
 %Loop over unique frequencies
 for k = 1:length(unique_freq)
     
-rows = frequency == unique_freq(k);
-refl_avg(k) = mean(refl_data(rows));
-trans_avg(k) = mean(trans_data(rows));
-
+    rows = frequency == unique_freq(k);
+    refl_avg(k) = mean(refl_data(rows));
+    trans_avg(k) = mean(trans_data(rows));
+    
 end
